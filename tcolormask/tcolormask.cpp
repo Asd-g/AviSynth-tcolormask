@@ -144,10 +144,12 @@ private:
     
     decltype(lutYv12) lutFunction_;
     decltype(sse2Yv12) sse2Function_;
+
+    bool v8;
 };
 
 TColorMask::TColorMask(PClip child, std::vector<int> colors, int tolerance, bool bt601, bool grayscale, int lutthr, bool mt, IScriptEnvironment* env)
-    : GenericVideoFilter(child), tolerance_(tolerance), grayscale_(grayscale), prefer_lut_thresh_(lutthr), mt_(mt), vector_tolerance_(0), vector_half_tolerance_(0) {
+    : GenericVideoFilter(child), tolerance_(tolerance), grayscale_(grayscale), prefer_lut_thresh_(lutthr), mt_(mt), vector_tolerance_(0), vector_half_tolerance_(0), v8(true) {
     if (vi.IsYV24()) {
         subsamplingY_ = 1;
         subsamplingX_ = 1;
@@ -197,6 +199,9 @@ TColorMask::TColorMask(PClip child, std::vector<int> colors, int tolerance, bool
     if (((child->GetVideoInfo().width % 16) != 0) || (colors_.size() > prefer_lut_thresh_)) {
         buildLuts();
     }
+
+    try { env->CheckVersion(8); }
+    catch (const AvisynthError&) { v8 = false; };
 }
 
 void TColorMask::buildLuts() {
@@ -217,7 +222,7 @@ void TColorMask::buildLuts() {
 
 PVideoFrame TColorMask::GetFrame(int n, IScriptEnvironment* env) {
    PVideoFrame src = child->GetFrame(n,env);
-   auto dst = env->NewVideoFrame(child->GetVideoInfo());
+   auto dst = (v8) ? env->NewVideoFrameP(vi, &src) : env->NewVideoFrame(vi);
 
    int width = src->GetRowSize(PLANAR_Y);
    int height = src->GetHeight(PLANAR_Y);
