@@ -160,6 +160,8 @@ TColorMask::TColorMask(PClip child, std::vector<int> colors, int tolerance, bool
         subsamplingX_ = 2;
         lutFunction_ = lutYv12;
         sse2Function_ = sse2Yv12;
+        if (mt_ && (vi.height / 2) % 2 != 0)
+            env->ThrowError("Chroma height must be mod2 for mt=true!");
     } else if (vi.IsYV16()) {
         subsamplingY_ = 1;
         subsamplingX_ = 2;
