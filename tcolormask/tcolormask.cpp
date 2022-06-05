@@ -280,7 +280,7 @@ void TColorMask::process(uint8_t *dstY_ptr, const uint8_t *srcY_ptr, const uint8
     sse2Function_(dstY_ptr, srcY_ptr, srcV_ptr, srcU_ptr, dst_pitch_y, src_pitch_y, src_pitch_uv, width - border , height, colors_, vector_tolerance_, vector_half_tolerance_);
     if (border != 0) {
         lutFunction_(dstY_ptr + width - border, 
-            srcY_ptr + (width - border) / subsamplingX_, 
+            srcY_ptr + width - border, 
             srcV_ptr + (width - border) / subsamplingX_, 
             srcU_ptr + (width - border) / subsamplingX_, 
             dst_pitch_y, src_pitch_y, src_pitch_uv, border, height, lut_y, lut_u, lut_v);
