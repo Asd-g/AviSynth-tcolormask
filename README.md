@@ -58,6 +58,7 @@ tcolormask(clip, string "colors, int "tolerance", bool "bt601", bool "gray", int
     0: Use C++ code.\
     1: Use SSE2 code.\
     2: Use AVX2 code.\
+    3: Use AVX512 code.\
     Default: -1.
 
 

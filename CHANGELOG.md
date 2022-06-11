@@ -1,3 +1,7 @@
+##### 1.2.2:
+    `grayscale` and `onlyY` cannot be true in the same time.
+    Added AVX512 code.
+
 ##### 1.2.1:
     Registered as MT_NICE_FILTER. (tp7)
     Disabled internal MT by default. (tp7)

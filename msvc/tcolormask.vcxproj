@@ -176,6 +176,8 @@
     </ClCompile>
     <ClCompile Include="..\tcolormask\tcolormask_avx512.cpp">
       <EnableEnhancedInstructionSet Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">AdvancedVectorExtensions512</EnableEnhancedInstructionSet>
+      <EnableEnhancedInstructionSet Condition="'$(Configuration)|$(Platform)'=='Release|x64'">AdvancedVectorExtensions512</EnableEnhancedInstructionSet>
+      <EnableEnhancedInstructionSet Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">AdvancedVectorExtensions512</EnableEnhancedInstructionSet>
     </ClCompile>
     <ClCompile Include="..\tcolormask\tcolormask_sse2.cpp" />
     <ClCompile Include="..\tcolormask\VCL2\instrset_detect.cpp" />
