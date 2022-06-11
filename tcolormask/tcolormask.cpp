@@ -376,22 +376,26 @@ AVSValue __cdecl CreateTColorMask(AVSValue args, void*, IScriptEnvironment* env)
 
     const bool grayscale = args[GRAYSCALE].AsBool(false);
     const bool mt = args[MT].AsBool(false);
+    const bool y = args[ONLYy].AsBool(false);
+
+    if (grayscale && y)
+        env->ThrowError("tcolormask: both grayscale and onlyY cannot be true in the same time.");
 
     if (bits == 8)
     {
         if (!grayscale)
         {
             if (!mt)
-                return new TColorMask<uint8_t, false, false>(clip, colors, args[TOLERANCE].AsInt(-1), args[BT601].AsBool(false), args[LUTTHR].AsInt(9), args[ONLYy].AsBool(false), args[OPT].AsInt(-1), env);
+                return new TColorMask<uint8_t, false, false>(clip, colors, args[TOLERANCE].AsInt(-1), args[BT601].AsBool(false), args[LUTTHR].AsInt(9), y, args[OPT].AsInt(-1), env);
             else
-                return new TColorMask<uint8_t, false, true>(clip, colors, args[TOLERANCE].AsInt(-1), args[BT601].AsBool(false), args[LUTTHR].AsInt(9), args[ONLYy].AsBool(false), args[OPT].AsInt(-1), env);
+                return new TColorMask<uint8_t, false, true>(clip, colors, args[TOLERANCE].AsInt(-1), args[BT601].AsBool(false), args[LUTTHR].AsInt(9), y, args[OPT].AsInt(-1), env);
         }
         else
         {
             if (!mt)
-                return new TColorMask<uint8_t, true, false>(clip, colors, args[TOLERANCE].AsInt(-1), args[BT601].AsBool(false), args[LUTTHR].AsInt(9), args[ONLYy].AsBool(false), args[OPT].AsInt(-1), env);
+                return new TColorMask<uint8_t, true, false>(clip, colors, args[TOLERANCE].AsInt(-1), args[BT601].AsBool(false), args[LUTTHR].AsInt(9), y, args[OPT].AsInt(-1), env);
             else
-                return new TColorMask<uint8_t, true, true>(clip, colors, args[TOLERANCE].AsInt(-1), args[BT601].AsBool(false), args[LUTTHR].AsInt(9), args[ONLYy].AsBool(false), args[OPT].AsInt(-1), env);
+                return new TColorMask<uint8_t, true, true>(clip, colors, args[TOLERANCE].AsInt(-1), args[BT601].AsBool(false), args[LUTTHR].AsInt(9), y, args[OPT].AsInt(-1), env);
         }
     }
     else
@@ -399,16 +403,16 @@ AVSValue __cdecl CreateTColorMask(AVSValue args, void*, IScriptEnvironment* env)
         if (!grayscale)
         {
             if (!mt)
-                return new TColorMask<uint16_t, false, false>(clip, colors, args[TOLERANCE].AsInt(-1), args[BT601].AsBool(false), args[LUTTHR].AsInt(9), args[ONLYy].AsBool(false), args[OPT].AsInt(-1), env);
+                return new TColorMask<uint16_t, false, false>(clip, colors, args[TOLERANCE].AsInt(-1), args[BT601].AsBool(false), args[LUTTHR].AsInt(9), y, args[OPT].AsInt(-1), env);
             else
-                return new TColorMask<uint16_t, false, true>(clip, colors, args[TOLERANCE].AsInt(-1), args[BT601].AsBool(false), args[LUTTHR].AsInt(9), args[ONLYy].AsBool(false), args[OPT].AsInt(-1), env);
+                return new TColorMask<uint16_t, false, true>(clip, colors, args[TOLERANCE].AsInt(-1), args[BT601].AsBool(false), args[LUTTHR].AsInt(9), y, args[OPT].AsInt(-1), env);
         }
         else
         {
             if (!mt)
-                return new TColorMask<uint16_t, true, false>(clip, colors, args[TOLERANCE].AsInt(-1), args[BT601].AsBool(false), args[LUTTHR].AsInt(9), args[ONLYy].AsBool(false), args[OPT].AsInt(-1), env);
+                return new TColorMask<uint16_t, true, false>(clip, colors, args[TOLERANCE].AsInt(-1), args[BT601].AsBool(false), args[LUTTHR].AsInt(9), y, args[OPT].AsInt(-1), env);
             else
-                return new TColorMask<uint16_t, true, true>(clip, colors, args[TOLERANCE].AsInt(-1), args[BT601].AsBool(false), args[LUTTHR].AsInt(9), args[ONLYy].AsBool(false), args[OPT].AsInt(-1), env);
+                return new TColorMask<uint16_t, true, true>(clip, colors, args[TOLERANCE].AsInt(-1), args[BT601].AsBool(false), args[LUTTHR].AsInt(9), y, args[OPT].AsInt(-1), env);
         }
     }
 }
