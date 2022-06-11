@@ -27,6 +27,9 @@
     <ClCompile Include="..\tcolormask\tcolormask_avx2.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="..\tcolormask\tcolormask_avx512.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\tcolormask\tcolormask.h">

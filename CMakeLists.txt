@@ -6,6 +6,7 @@ add_library(tcolormask SHARED
     tcolormask/tcolormask.cpp
     tcolormask/tcolormask_sse2.cpp
     tcolormask/tcolormask_avx2.cpp
+    tcolormask/tcolormask_avx512.cpp
     tcolormask/VCL2/instrset_detect.cpp
 )
 
@@ -31,6 +32,7 @@ target_compile_features(tcolormask PRIVATE cxx_std_17)
 
 set_source_files_properties(tcolormask/tcolormask_sse2.cpp PROPERTIES COMPILE_OPTIONS "-mfpmath=sse;-msse2")
 set_source_files_properties(tcolormask/tcolormask_avx2.cpp PROPERTIES COMPILE_OPTIONS "-mavx2;-mfma")
+set_source_files_properties(tcolormask/tcolormask_avx512.cpp PROPERTIES COMPILE_OPTIONS "-mavx512f;-mavx512bw;-mavx512dq;-mavx512vl;-mfma")
 
 find_package (Git)
 

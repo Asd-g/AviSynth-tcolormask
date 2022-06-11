@@ -52,3 +52,5 @@ template <typename T, int subsamplingX, int subsamplingY>
 void processSse2(void* __restrict pDstY, const void* pSrcY, const void* pSrcV, const void* pSrcU, int dstPitchY, int srcPitchY, int srcPitchUV, int width, int height, const std::vector<YUVPixel<T>>& colors, int tolerance, int halftolerance) noexcept;
 template <typename T, int subsamplingX, int subsamplingY>
 void processAvx2(void* __restrict pDstY, const void* pSrcY, const void* pSrcV, const void* pSrcU, int dstPitchY, int srcPitchY, int srcPitchUV, int width, int height, const std::vector<YUVPixel<T>>& colors, int tolerance, int halftolerance) noexcept;
+template <typename T, int subsamplingX, int subsamplingY>
+void processAvx512(void* __restrict pDstY, const void* pSrcY, const void* pSrcV, const void* pSrcU, int dstPitchY, int srcPitchY, int srcPitchUV, int width, int height, const std::vector<YUVPixel<T>>& colors, int tolerance, int halftolerance) noexcept;

@@ -111,12 +111,16 @@ TColorMask<T, grayscale, mt>::TColorMask(PClip child, std::vector<uint64_t> colo
     if (tolerance_ < 0 || tolerance_ > peak)
         env->ThrowError("tcolormask: tolerance must be between 0..%s", std::to_string(peak).c_str());
 
-    if (opt < -1 || opt > 2)
-        env->ThrowError("tcolormask: opt must be between -1..2.");
+    if (opt < -1 || opt > 3)
+        env->ThrowError("tcolormask: opt must be between -1..3.");
 
     const int iset{ instrset_detect() };
     if (opt == 1 && iset < 2)
         env->ThrowError("tcolormask: opt=1 requires SSE2.");
+    if (opt == 2 && iset < 8)
+        env->ThrowError("tcolormask: opt=2 requires AVX2.");
+    if (opt == 3 && iset < 10)
+        env->ThrowError("tcolormask: opt=3 requires AVX512F.");
 
     if (vi.Is444())
     {
@@ -124,7 +128,9 @@ TColorMask<T, grayscale, mt>::TColorMask(PClip child, std::vector<uint64_t> colo
         subsamplingX_ = 1;
         proc_lut = processLut<T, 1, 1>;
 
-        if ((opt == -1 && iset >= 8) || opt == 2)
+        if ((opt == -1 && iset >= 10) || opt == 3)
+            p_ = processAvx512<T, 1, 1>;
+        else if ((opt == -1 && iset >= 8) || opt == 2)
             p_ = processAvx2<T, 1, 1>;
         else if ((opt == -1 && iset >= 2) || opt == 1)
             p_ = processSse2<T, 1, 1>;
@@ -141,7 +147,9 @@ TColorMask<T, grayscale, mt>::TColorMask(PClip child, std::vector<uint64_t> colo
 
         proc_lut = processLut<T, 2, 2>;
 
-        if ((opt == -1 && iset >= 8) || opt == 2)
+        if ((opt == -1 && iset >= 10) || opt == 3)
+            p_ = processAvx512<T, 2, 2>;
+        else if ((opt == -1 && iset >= 8) || opt == 2)
             p_ = processAvx2<T, 2, 2>;
         else if ((opt == -1 && iset >= 2) || opt == 1)
             p_ = processSse2<T, 2, 2>;
@@ -154,7 +162,9 @@ TColorMask<T, grayscale, mt>::TColorMask(PClip child, std::vector<uint64_t> colo
         subsamplingX_ = 2;
         proc_lut = processLut<T, 2, 1>;
 
-        if ((opt == -1 && iset >= 8) || opt == 2)
+        if ((opt == -1 && iset >= 10) || opt == 3)
+            p_ = processAvx512<T, 2, 1>;
+        else if ((opt == -1 && iset >= 8) || opt == 2)
             p_ = processAvx2<T, 2, 1>;
         else if ((opt == -1 && iset >= 2) || opt == 1)
             p_ = processSse2<T, 2, 1>;
